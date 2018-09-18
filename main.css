@@ -1,0 +1,17 @@
+.line {
+  display: flex;
+  flex-direction: row;
+}
+
+button {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+
+.x {
+  background-color: green;
+}
+.ball {
+  background-color: blue;
+}
