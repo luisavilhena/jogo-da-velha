@@ -11,7 +11,7 @@ function setUp() {
   var line2 = 5
   var line3 = 8
   var column1 = [0, 3, 6]
-  console.log(column1[0], column1[1], column1[2])
+  console.log(column1.toLocaleString(3))
 
 
   var box = Array.from(document.querySelectorAll('button'))
@@ -23,7 +23,7 @@ function setUp() {
   var boxSecondColumn = Array.from(document.querySelectorAll('.second-column'))
   var boxThirdColumn = Array.from(document.querySelectorAll('.third-column'))
 
-console.log(boxFirstColumn)
+  console.log(boxFirstColumn)
   function aditionClassx (item) {
     item.classList.add('x')
   }
@@ -51,10 +51,12 @@ console.log(boxFirstColumn)
       }else{
         aditionClassBall(button)
       }
-
+      console.log(findPosition(column1))
 
       /////LINHA 1
       if(findPosition(button) <= line1) {
+        console.log(findPosition(button))
+        console.log('o')
   
         /////jogador x ganha na primeira linha
         var everyLineWithTheClassX = boxFirstLine.every(function (item) {
@@ -108,7 +110,7 @@ console.log(boxFirstColumn)
 
 
       ////////////COLUNA 1
-      } else if (findPosition(button) = column1)  {
+      } else if (findPosition(button) = boxFirstColumn(button))  {
         console.log('oooooooooooooo')
          var everyLineWithTheClassX = boxFirstColumn.every(function (item) {
           return boxHasX(item)
