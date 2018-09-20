@@ -1,17 +1,40 @@
+#game {
+  padding-top: 150px;
+  width: 575px;
+  margin: 0 auto;
+}
+
 .line {
   display: flex;
   flex-direction: row;
 }
 
 button {
-  width: 100px;
-  height: 100px;
-  background-color: red;
+  width: 190px;
+  height: 140px;
+  background-color: white;
+  border: 1px black solid;
+
 }
 
 .x {
-  background-color: green;
+  background-image: url(bird3.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: black;
+  /*width: 100px;
+  height: 10px;*/
+
 }
+
 .ball {
-  background-color: blue;
+
+  background-image: url(brontossauro.png);
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-color: black
+}
+
+.winner {
+  border: 5px black solid;
 }
