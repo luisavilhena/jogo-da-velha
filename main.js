@@ -8,16 +8,10 @@ function setUp() {
 
   var clickedCalc = 0
   var clickButton = null
-  var line1 = 2
-  var line2 = 5
-  var line3 = 8
-  var column1 = [0, 3, 6]
-
-
-
-  var box = Array.from(document.querySelectorAll('button'))
-
-
+  var cantClickAnymore = []
+ 
+  var box = Array.from(document.querySelectorAll('.line > button'))
+  var reset = document.getElementById('reset')
 
   var boxFirstLine = Array.from(document.querySelectorAll('.first-line'))
   var boxSecondLine = Array.from(document.querySelectorAll('.second-line'))
@@ -27,88 +21,138 @@ function setUp() {
   var boxThirdColumn = Array.from(document.querySelectorAll('.third-column'))
   var boxDiagonalRightLeft = Array.from(document.querySelectorAll('.diagonal-right-left'))
   var boxDiagonalLeftRight = Array.from(document.querySelectorAll('.diagonal-left-right'))
-  console.log(boxFirstColumn)
 
-  function aditionClassx (item) {
-    item.classList.add('x')
+  var everyLineWithTheClassBird = null 
+  var everyLineWithTheClassDino = null 
+  var everyColumnWithTheClassBird= null
+  var everyColumnWithTheClassDino = null
+  var everyDiagonalRightLeftWithTheClassBird = null
+  var everyDiagonalRightLeftWithTheClassDino = null
+  var everyDiagonalLeftRightWithTheClassBird = null
+  var everyDiagonalLeftRightWithTheClassDino = null
+
+
+  function aditionClassBird (item) {
+    item.classList.add('bird')
   }
-  function aditionClassBall (item) {
-    item.classList.add('ball')
+  function aditionClassDino (item) {
+    item.classList.add('dino')
   }
   function aditionWinner (item) {
     item.classList.add('winner')
   }
-  function boxHasBall (item) {
-    return item.classList.contains('ball')
+  function boxHasDino (item) {
+    return item.classList.contains('dino')
   }
-  function boxHasX (item) {
-    return item.classList.contains('x')
+  function boxHasBird (item) {
+    return item.classList.contains('bird')
   }
   function findPosition (item){
     return box.indexOf(item)
   }
+  function removeClassBird (item) {
+    item.classList.remove('bird')
+  }
+  function removeClassDino (item) {
+    item.classList.remove('dino')
+  }
+  function removeClassWinner (item) {
+    item.classList.remove('winner')
+  }
+
+  ////////resetar o jogo
+  box.forEach(function(button){
+    reset.addEventListener('click', function(){
+      removeClassDino(button)
+      removeClassBird(button)
+      removeClassWinner(button)
+    })
+  })
 
 
   box.forEach(function(button){
 
     button.addEventListener('click', function(){
       ///os  dois jogadores são conforme o par e o ímpar
-      clickedCalc ++
       if(clickedCalc % 2===0) {
-        aditionClassx(button)
+        aditionClassBird(button)
       }else{
-        aditionClassBall(button)
+        aditionClassDino(button)
       }
+      clickedCalc ++
+
       clickButton = this;
+      cantClickAnymore.push(clickButton)
+      console.log(cantClickAnymore)
+
+
+      ////////impossibilitar que mais do que uma linha/col/diag receba winner
+      for (var i = 0; i < box.length; i++) {
+        if (box[i].classList.contains('winner')) {
+          return;
+          clickButton = null
+        }
+      }
 
       /////LINHA 1
 
       if(clickButton.classList.contains('first-line')) {
-        var everyLineWithTheClassX = boxFirstLine.every(function (item) {
-          return boxHasX(item)
+        everyLineWithTheClassBird = boxFirstLine.every(function (item) {
+          return boxHasBird(item)
         })
-        if (everyLineWithTheClassX===true) {
-          aditionWinner(button)
+        if (everyLineWithTheClassBird === true) {
+          for (var i = 0; i < boxFirstLine.length; i++) {
+            aditionWinner(boxFirstLine[i])
+          }
         }
-        var everyLineWithTheClassBall = boxFirstLine.every(function (item) {
-          return boxHasBall(item)
+        everyLineWithTheClassDino = boxFirstLine.every(function (item) {
+          return boxHasDino(item)
         })
-        if (everyLineWithTheClassBall===true) {
-          boxFirstLine.forEach(aditionWinner(button))
+        if (everyLineWithTheClassDino===true) {
+          for (var i = 0; i < boxFirstLine.length; i++) {
+            aditionWinner(boxFirstLine[i])
+          }         
         }
-
 
       //////LINHA 2
       } else if (clickButton.classList.contains('second-line')) {
-        var everyLineWithTheClassX = boxSecondLine.every(function (item) {
-          return boxHasX(item)
+        everyLineWithTheClassBird = boxSecondLine.every(function (item) {
+          return boxHasBird(item)
         })
-        if (everyLineWithTheClassX===true) {
-          aditionWinner(button) 
+        if (everyLineWithTheClassBird===true) {
+          for (var i = 0; i < boxSecondLine.length; i++) {
+            aditionWinner(boxSecondLine[i])
+          }
         }
         //////jogador 0 ganha na primeira linha
-        var everyLineWithTheClassBall = boxSecondLine.every(function (item) {
-          return boxHasBall(item)
+        everyLineWithTheClassDino = boxSecondLine.every(function (item) {
+          return boxHasDino(item)
         })
-        if (everyLineWithTheClassBall===true) {
-          aditionWinner(button) 
+        if (everyLineWithTheClassDino===true) {
+          for (var i = 0; i < boxSecondLine.length; i++) {
+            aditionWinner(boxSecondLine[i])
+          }
         }
 
 
       ////////LINHA 3
       }else if (clickButton.classList.contains('third-line')) {
-         var everyLineWithTheClassX = boxThirdLine.every(function (item) {
-          return boxHasX(item)
+        everyLineWithTheClassBird = boxThirdLine.every(function (item) {
+          return boxHasBird(item)
         })
-        if (everyLineWithTheClassX===true) {
-          aditionWinner(button) 
+        if (everyLineWithTheClassBird===true) {
+          for (var i = 0; i < boxThirdLine.length; i++) {
+            aditionWinner(boxThirdLine[i])
+          } 
         }
         //////jogador 0 ganha na primeira linha
-        var everyLineWithTheClassBall = boxThirdLine.every(function (item) {
-          return boxHasBall(item)
+        everyLineWithTheClassDino = boxThirdLine.every(function (item) {
+          return boxHasDino(item)
         })
-        if (everyLineWithTheClassBall===true) {
-          aditionWinner(button) 
+        if (everyLineWithTheClassDino===true) {
+          for (var i = 0; i < boxThirdLine.length; i++) {
+            aditionWinner(boxThirdLine[i])
+          } 
         }
       } 
 
@@ -116,86 +160,106 @@ function setUp() {
       ////////////COLUNA 1
       if (clickButton.classList.contains('first-column'))  {
     
-        var everyColumnWithTheClassX = boxFirstColumn.every(function (item) {
-          return boxHasX(item)
+        everyColumnWithTheClassBird = boxFirstColumn.every(function (item) {
+          return boxHasBird(item)
         })
-        if (everyColumnWithTheClassX===true) {
-          aditionWinner(button) 
+        if (everyColumnWithTheClassBird===true) {
+          for (var i = 0; i < boxFirstColumn.length; i++) {
+            aditionWinner(boxFirstColumn[i])
+          } 
         }
         //////jogador BALL ganha na primeira coluna
-        var everyColumnWithTheClassBall = boxFirstColumn.every(function (item) {
-          return boxHasBall(item)
+        everyColumnWithTheClassDino = boxFirstColumn.every(function (item) {
+          return boxHasDino(item)
         })
-        if (everyColumnWithTheClassBall===true) {
-          aditionWinner(button)
+        if (everyColumnWithTheClassDino===true) {
+          for (var i = 0; i < boxFirstColumn.length; i++) {
+            aditionWinner(boxFirstColumn[i])
+          }
         }
 
 
         //////////////COLUNA 2
       }else if(clickButton.classList.contains('second-column')){
-        var everyColumnWithTheClassX = boxSecondColumn.every(function (item) {
-          return boxHasX(item)
+        everyColumnWithTheClassBird = boxSecondColumn.every(function (item) {
+          return boxHasBird(item)
         })
-        if (everyColumnWithTheClassX===true) {
-          aditionWinner(button) 
+        if (everyColumnWithTheClassBird===true) {
+          for (var i = 0; i < boxSecondColumn.length; i++) {
+            aditionWinner(boxSecondColumn[i])
+          } 
         }
         //////jogador BALL ganha na primeira coluna
-        var everyColumnWithTheClassBall = boxSecondColumn.every(function (item) {
-          return boxHasBall(item)
+        everyColumnWithTheClassDino = boxSecondColumn.every(function (item) {
+          return boxHasDino(item)
         })
-        if (everyColumnWithTheClassBall===true) {
-          aditionWinner(button)
+        if (everyColumnWithTheClassDino===true) {
+          for (var i = 0; i < boxSecondColumn.length; i++) {
+            aditionWinner(boxSecondColumn[i])
+          }
         }
 
 
         ////////////COLUNA 3
       } else if (clickButton.classList.contains('third-column')){
-        var everyColumnWithTheClassX = boxThirdColumn.every(function (item) {
-          return boxHasX(item)
+        everyColumnWithTheClassBird = boxThirdColumn.every(function (item) {
+          return boxHasBird(item)
         })
-        if (everyColumnWithTheClassX===true) {
-          aditionWinner(button) 
+        if (everyColumnWithTheClassBird===true) {
+          for (var i = 0; i < boxThirdColumn.length; i++) {
+            aditionWinner(boxThirdColumn[i])
+          } 
         }
         //////jogador BALL ganha na primeira coluna
-        var everyColumnWithTheClassBall = boxThirdColumn.every(function (item) {
-          return boxHasBall(item)
+        everyColumnWithTheClassDino = boxThirdColumn.every(function (item) {
+          return boxHasDino(item)
         })
-        if (everyColumnWithTheClassBall===true) {
-          aditionWinner(button)
+        if (everyColumnWithTheClassDino===true) {
+          for (var i = 0; i < boxThirdColumn.length; i++) {
+            aditionWinner(boxThirdColumn[i])
+          }
         }
       }
 
       //////////////////DIAGONAL RIGHT LEFT
       if (clickButton.classList.contains('diagonal-right-left')) {
-        var everyDiagonalRightLeftWithTheClassX = boxDiagonalRightLeft.every(function (item) {
-          return boxHasX(item)
+        everyDiagonalRightLeftWithTheClassBird = boxDiagonalRightLeft.every(function (item) {
+          return boxHasBird(item)
         })
-        if (everyDiagonalRightLeftWithTheClassX===true) {
-          aditionWinner(button) 
+        if (everyDiagonalRightLeftWithTheClassBird===true) {
+          for (var i = 0; i < boxDiagonalRightLeft.length; i++) {
+            aditionWinner(boxDiagonalRightLeft[i])
+          } 
         }
         //////jogador BALL ganha na primeira coluna
-        var everyDiagonalRightLeftWithTheClassBall = boxDiagonalRightLeft.every(function (item) {
-          return boxHasBall(item)
+        everyDiagonalRightLeftWithTheClassDino = boxDiagonalRightLeft.every(function (item) {
+          return boxHasDino(item)
         })
-        if (everyDiagonalRightLeftWithTheClassBall===true) {
-          aditionWinner(button)
+        if (everyDiagonalRightLeftWithTheClassDino===true) {
+          for (var i = 0; i < boxDiagonalRightLeft.length; i++) {
+            aditionWinner(boxDiagonalRightLeft[i])
+          }
         }
       }
 
       ///////////////////DIAGONAL LEFT RIGHT
       if (clickButton.classList.contains('diagonal-left-right')) {
-        var everyDiagonalLeftRightWithTheClassX = boxDiagonalLeftRight.every(function (item) {
-          return boxHasX(item)
+        everyDiagonalLeftRightWithTheClassBird = boxDiagonalLeftRight.every(function (item) {
+          return boxHasBird(item)
         })
-        if (everyDiagonalLeftRightWithTheClassX===true) {
-          aditionWinner(button) 
+        if (everyDiagonalLeftRightWithTheClassBird===true) {
+         for (var i = 0; i < boxDiagonalLeftRight.length; i++) {
+            aditionWinner(boxDiagonalLeftRight[i])
+          } 
         }
         //////jogador BALL ganha na primeira coluna
-        var everyDiagonalLeftRightWithTheClassBall = boxDiagonalLeftRight.every(function (item) {
-          return boxHasBall(item)
+        everyDiagonalLeftRightWithTheClassDino = boxDiagonalLeftRight.every(function (item) {
+          return boxHasDino(item)
         })
-        if (everyDiagonalLeftRightWithTheClassBall===true) {
-          aditionWinner(button)
+        if (everyDiagonalLeftRightWithTheClassDino===true) {
+         for (var i = 0; i < boxDiagonalLeftRight.length; i++) {
+            aditionWinner(boxDiagonalLeftRight[i])
+          }
         }
       }
       
