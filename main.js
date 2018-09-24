@@ -21,6 +21,7 @@ function setUp() {
   var boxThirdColumn = Array.from(document.querySelectorAll('.third-column'))
   var boxDiagonalRightLeft = Array.from(document.querySelectorAll('.diagonal-right-left'))
   var boxDiagonalLeftRight = Array.from(document.querySelectorAll('.diagonal-left-right'))
+  var selectGame = document.querySelector("#game")
 
   var everyLineWithTheClassBird = null 
   var everyLineWithTheClassDino = null 
@@ -59,6 +60,14 @@ function setUp() {
   function removeClassWinner (item) {
     item.classList.remove('winner')
   }
+  function removeClassDisabled (item) {
+    item.classList.remove('disabled')
+  }
+
+  function removeOnGameClassDisabled() {
+    selectGame.classList.remove('disabled')
+  }
+
 
   ////////resetar o jogo
   box.forEach(function(button){
@@ -66,6 +75,8 @@ function setUp() {
       removeClassDino(button)
       removeClassBird(button)
       removeClassWinner(button)
+      removeClassDisabled(button)
+      removeOnGameClassDisabled()
     })
   })
 // if(boxHasDino === true || boxHasBird === true) {
@@ -103,12 +114,12 @@ function setUp() {
 
 
       ////////impossibilitar que mais do que uma linha/col/diag receba winner
-      for (var i = 0; i < box.length; i++) {
-        if (box[i].classList.contains('winner')) {
-          return;
-          clickButton = null;      
-        }
-      }
+      // for (var i = 0; i < box.length; i++) {
+      //   if (box[i].classList.contains('winner')) {
+      //     return;
+      //     clickButton = null;      
+      //   }
+      // }
 
       /////LINHA 1
       this.classList.add('disabled')
@@ -119,7 +130,7 @@ function setUp() {
         if (everyLineWithTheClassBird === true) {
           for (var i = 0; i < boxFirstLine.length; i++) {
             aditionWinner(boxFirstLine[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           }
         }
         everyLineWithTheClassDino = boxFirstLine.every(function (item) {
@@ -128,7 +139,7 @@ function setUp() {
         if (everyLineWithTheClassDino===true) {
           for (var i = 0; i < boxFirstLine.length; i++) {
             aditionWinner(boxFirstLine[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           }         
         }
 
@@ -140,7 +151,7 @@ function setUp() {
         if (everyLineWithTheClassBird===true) {
           for (var i = 0; i < boxSecondLine.length; i++) {
             aditionWinner(boxSecondLine[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           }
         }
         //////jogador 0 ganha na primeira linha
@@ -150,7 +161,7 @@ function setUp() {
         if (everyLineWithTheClassDino===true) {
           for (var i = 0; i < boxSecondLine.length; i++) {
             aditionWinner(boxSecondLine[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           }
         }
 
@@ -163,7 +174,7 @@ function setUp() {
         if (everyLineWithTheClassBird===true) {
           for (var i = 0; i < boxThirdLine.length; i++) {
             aditionWinner(boxThirdLine[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           } 
         }
         //////jogador 0 ganha na primeira linha
@@ -173,7 +184,7 @@ function setUp() {
         if (everyLineWithTheClassDino===true) {
           for (var i = 0; i < boxThirdLine.length; i++) {
             aditionWinner(boxThirdLine[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           } 
         }
       } 
@@ -188,7 +199,7 @@ function setUp() {
         if (everyColumnWithTheClassBird===true) {
           for (var i = 0; i < boxFirstColumn.length; i++) {
             aditionWinner(boxFirstColumn[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           } 
         }
         //////jogador BALL ganha na primeira coluna
@@ -198,7 +209,7 @@ function setUp() {
         if (everyColumnWithTheClassDino===true) {
           for (var i = 0; i < boxFirstColumn.length; i++) {
             aditionWinner(boxFirstColumn[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           }
         }
 
@@ -211,7 +222,7 @@ function setUp() {
         if (everyColumnWithTheClassBird===true) {
           for (var i = 0; i < boxSecondColumn.length; i++) {
             aditionWinner(boxSecondColumn[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           } 
         }
         //////jogador BALL ganha na primeira coluna
@@ -221,7 +232,7 @@ function setUp() {
         if (everyColumnWithTheClassDino===true) {
           for (var i = 0; i < boxSecondColumn.length; i++) {
             aditionWinner(boxSecondColumn[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           }
         }
 
@@ -234,7 +245,7 @@ function setUp() {
         if (everyColumnWithTheClassBird===true) {
           for (var i = 0; i < boxThirdColumn.length; i++) {
             aditionWinner(boxThirdColumn[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           } 
         }
         //////jogador BALL ganha na primeira coluna
@@ -244,7 +255,7 @@ function setUp() {
         if (everyColumnWithTheClassDino===true) {
           for (var i = 0; i < boxThirdColumn.length; i++) {
             aditionWinner(boxThirdColumn[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           }
         }
       }
@@ -257,7 +268,7 @@ function setUp() {
         if (everyDiagonalRightLeftWithTheClassBird===true) {
           for (var i = 0; i < boxDiagonalRightLeft.length; i++) {
             aditionWinner(boxDiagonalRightLeft[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           } 
         }
         //////jogador BALL ganha na primeira coluna
@@ -267,7 +278,7 @@ function setUp() {
         if (everyDiagonalRightLeftWithTheClassDino===true) {
           for (var i = 0; i < boxDiagonalRightLeft.length; i++) {
             aditionWinner(boxDiagonalRightLeft[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           }
         }
       }
@@ -280,7 +291,7 @@ function setUp() {
         if (everyDiagonalLeftRightWithTheClassBird===true) {
          for (var i = 0; i < boxDiagonalLeftRight.length; i++) {
             aditionWinner(boxDiagonalLeftRight[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           } 
         }
         //////jogador BALL ganha na primeira coluna
@@ -290,7 +301,7 @@ function setUp() {
         if (everyDiagonalLeftRightWithTheClassDino===true) {
          for (var i = 0; i < boxDiagonalLeftRight.length; i++) {
             aditionWinner(boxDiagonalLeftRight[i])
-            document.querySelector("#game").classList.add('disabled')
+            selectGame.classList.add('disabled')
           }
         }
       }
