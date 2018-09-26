@@ -1,0 +1,28 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+
+  background-color: skyblue;
+}
+
+#container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+}
+
+.value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+
+  background-color: white;
+  border: 1px solid black;
+}

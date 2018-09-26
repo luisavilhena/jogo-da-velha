@@ -1,14 +1,12 @@
 'use strict';
 function setUp() {
-  //1-adicionar o evento de click
-  //2-colocar a classe bola ou x
-  //2.1- adicionei a var clickedCalc = 0 que soma 1 a cada click
-  //2.2- se o número da clicked for par, add class ball, se ímpar add claxx x
-  //verificar se existe uma linha ou coluna clicada
+  /////criar variáveis e funções globais
+
 
   var clickedCalc = 0
   var clickButton = null
-  var cantClickAnymore = []
+  var newBox =[]
+  var erro = 0
  
   var box = Array.from(document.querySelectorAll('.line > button'))
   var reset = document.getElementById('reset')
@@ -32,6 +30,8 @@ function setUp() {
   var everyDiagonalLeftRightWithTheClassBird = null
   var everyDiagonalLeftRightWithTheClassDino = null
 
+  // var targetBox= box[Math.floor(Math.random() * box.length)];
+
 
   function aditionClassBird (item) {
     item.classList.add('bird')
@@ -48,9 +48,12 @@ function setUp() {
   function boxHasBird (item) {
     return item.classList.contains('bird')
   }
-  function findPosition (item){
-    return box.indexOf(item)
-  }
+  // function boxWithoutDino (item) {
+  //   return !item.classList.contains('dino')
+  // }
+  // function boxWhithoutBird (item) {
+  //   return !item.classList.contains('bird')
+  // }
   function removeClassBird (item) {
     item.classList.remove('bird')
   }
@@ -63,66 +66,67 @@ function setUp() {
   function removeClassDisabled (item) {
     item.classList.remove('disabled')
   }
-
   function removeOnGameClassDisabled() {
     selectGame.classList.remove('disabled')
   }
+  function addOnGameClassDisabled() {
+    selectGame.classList.add('disabled')
+  }
 
+  function chooseOtherBox(){
+     box[Math.floor(Math.random() * box.length)];
+  }
 
+  function indexButton(item){
+     return box.indexOf(item)
+  }
+
+    
   ////////resetar o jogo
-  box.forEach(function(button){
-    reset.addEventListener('click', function(){
+  ////retirar classe Dino, Bird, Winner, Disabled de cada click e disabled após terminar o jogo
+
+  reset.addEventListener('click', function () {
+    box.forEach(function (button) {
       removeClassDino(button)
       removeClassBird(button)
       removeClassWinner(button)
       removeClassDisabled(button)
-      removeOnGameClassDisabled()
     })
+    removeOnGameClassDisabled()
   })
-// if(boxHasDino === true || boxHasBird === true) {
-  //   return;
-  // }
+
+  ///adicionar função de click
 
   box.forEach(function(button){
 
     button.addEventListener('click', function(){
 
-      ///////os  dois jogadores são conforme o par e o ímpar
-      if(clickedCalc % 2===0) {
-        aditionClassBird(button)
-        
-      }else if(clickedCalc % 2 !== 0){
-        aditionClassDino(button)
-        
+      //jogador adiciona a classe Bird
+      aditionClassBird(button)
+      //logo depois o código escolhe um randomico para adicionar a classe Dino
+      var otherBox= box[Math.floor(Math.random() * box.length)];
+      //retirar do box os elementos que já foram clicados
+      box.splice(indexButton(button), 1)
+      //se o box não tiver a classe dino ou bird, pode adicionar a classe dino
+      if(boxHasBird(otherBox)=== false|| boxHasDino(otherBox)===false){
+        aditionClassDino(otherBox)   
+      //retirar do box os elementos com dino 
+        box.splice(indexButton(otherBox), 1)
+      //////////dúvida!!!!!a clase que eu clico não pode receber a classe dino e a bird
+      }else if(otherBox===this){
+        while(otherBox===this){
+          return chooseOtherBox()
+        }
+        aditionClassDino(otherBox)
       }
+
       clickedCalc ++
 
       clickButton = this;
 
-      cantClickAnymore.push(clickButton)
-      
-
-      // for (var i = 0; i < cantClickAnymore.length; i++) {
-
-      //   if(this.classList.contains('bird')===true){
-      //     return
-      //     console.log(cantClickAnymore[i], 'kkkkkkkkkkkkkkkkkkkkk')
-      //   }
-      // }
-
-   
-
-
-      ////////impossibilitar que mais do que uma linha/col/diag receba winner
-      // for (var i = 0; i < box.length; i++) {
-      //   if (box[i].classList.contains('winner')) {
-      //     return;
-      //     clickButton = null;      
-      //   }
-      // }
-
-      /////LINHA 1
+      /////adicionar disabled para cada botão clicado e não permitir que seja clicado mais de uma vez
       this.classList.add('disabled')
+      /////LINHA 1 conferir se ela inteira contém a mesma classe
       if(clickButton.classList.contains('first-line')) {
         everyLineWithTheClassBird = boxFirstLine.every(function (item) {
           return boxHasBird(item)
@@ -130,8 +134,8 @@ function setUp() {
         if (everyLineWithTheClassBird === true) {
           for (var i = 0; i < boxFirstLine.length; i++) {
             aditionWinner(boxFirstLine[i])
-            selectGame.classList.add('disabled')
           }
+          addOnGameClassDisabled()
         }
         everyLineWithTheClassDino = boxFirstLine.every(function (item) {
           return boxHasDino(item)
@@ -139,8 +143,8 @@ function setUp() {
         if (everyLineWithTheClassDino===true) {
           for (var i = 0; i < boxFirstLine.length; i++) {
             aditionWinner(boxFirstLine[i])
-            selectGame.classList.add('disabled')
-          }         
+          }
+          addOnGameClassDisabled()       
         }
 
       //////LINHA 2
@@ -151,18 +155,17 @@ function setUp() {
         if (everyLineWithTheClassBird===true) {
           for (var i = 0; i < boxSecondLine.length; i++) {
             aditionWinner(boxSecondLine[i])
-            selectGame.classList.add('disabled')
           }
+          addOnGameClassDisabled()
         }
-        //////jogador 0 ganha na primeira linha
         everyLineWithTheClassDino = boxSecondLine.every(function (item) {
           return boxHasDino(item)
         })
         if (everyLineWithTheClassDino===true) {
           for (var i = 0; i < boxSecondLine.length; i++) {
             aditionWinner(boxSecondLine[i])
-            selectGame.classList.add('disabled')
           }
+          addOnGameClassDisabled()
         }
 
 
@@ -174,18 +177,17 @@ function setUp() {
         if (everyLineWithTheClassBird===true) {
           for (var i = 0; i < boxThirdLine.length; i++) {
             aditionWinner(boxThirdLine[i])
-            selectGame.classList.add('disabled')
           } 
+          addOnGameClassDisabled()
         }
-        //////jogador 0 ganha na primeira linha
         everyLineWithTheClassDino = boxThirdLine.every(function (item) {
           return boxHasDino(item)
         })
         if (everyLineWithTheClassDino===true) {
           for (var i = 0; i < boxThirdLine.length; i++) {
             aditionWinner(boxThirdLine[i])
-            selectGame.classList.add('disabled')
-          } 
+          }
+          addOnGameClassDisabled()
         }
       } 
 
@@ -199,18 +201,17 @@ function setUp() {
         if (everyColumnWithTheClassBird===true) {
           for (var i = 0; i < boxFirstColumn.length; i++) {
             aditionWinner(boxFirstColumn[i])
-            selectGame.classList.add('disabled')
-          } 
+          }
+          addOnGameClassDisabled()
         }
-        //////jogador BALL ganha na primeira coluna
         everyColumnWithTheClassDino = boxFirstColumn.every(function (item) {
           return boxHasDino(item)
         })
         if (everyColumnWithTheClassDino===true) {
           for (var i = 0; i < boxFirstColumn.length; i++) {
             aditionWinner(boxFirstColumn[i])
-            selectGame.classList.add('disabled')
           }
+          addOnGameClassDisabled()
         }
 
 
@@ -222,18 +223,17 @@ function setUp() {
         if (everyColumnWithTheClassBird===true) {
           for (var i = 0; i < boxSecondColumn.length; i++) {
             aditionWinner(boxSecondColumn[i])
-            selectGame.classList.add('disabled')
           } 
+          addOnGameClassDisabled()
         }
-        //////jogador BALL ganha na primeira coluna
         everyColumnWithTheClassDino = boxSecondColumn.every(function (item) {
           return boxHasDino(item)
         })
         if (everyColumnWithTheClassDino===true) {
           for (var i = 0; i < boxSecondColumn.length; i++) {
             aditionWinner(boxSecondColumn[i])
-            selectGame.classList.add('disabled')
           }
+          addOnGameClassDisabled()
         }
 
 
@@ -245,18 +245,17 @@ function setUp() {
         if (everyColumnWithTheClassBird===true) {
           for (var i = 0; i < boxThirdColumn.length; i++) {
             aditionWinner(boxThirdColumn[i])
-            selectGame.classList.add('disabled')
-          } 
+          }
+          addOnGameClassDisabled()
         }
-        //////jogador BALL ganha na primeira coluna
         everyColumnWithTheClassDino = boxThirdColumn.every(function (item) {
           return boxHasDino(item)
         })
         if (everyColumnWithTheClassDino===true) {
           for (var i = 0; i < boxThirdColumn.length; i++) {
             aditionWinner(boxThirdColumn[i])
-            selectGame.classList.add('disabled')
           }
+          addOnGameClassDisabled()
         }
       }
 
@@ -268,18 +267,17 @@ function setUp() {
         if (everyDiagonalRightLeftWithTheClassBird===true) {
           for (var i = 0; i < boxDiagonalRightLeft.length; i++) {
             aditionWinner(boxDiagonalRightLeft[i])
-            selectGame.classList.add('disabled')
-          } 
+          }
+          addOnGameClassDisabled()
         }
-        //////jogador BALL ganha na primeira coluna
         everyDiagonalRightLeftWithTheClassDino = boxDiagonalRightLeft.every(function (item) {
           return boxHasDino(item)
         })
         if (everyDiagonalRightLeftWithTheClassDino===true) {
           for (var i = 0; i < boxDiagonalRightLeft.length; i++) {
             aditionWinner(boxDiagonalRightLeft[i])
-            selectGame.classList.add('disabled')
           }
+          addOnGameClassDisabled()
         }
       }
 
@@ -291,23 +289,20 @@ function setUp() {
         if (everyDiagonalLeftRightWithTheClassBird===true) {
          for (var i = 0; i < boxDiagonalLeftRight.length; i++) {
             aditionWinner(boxDiagonalLeftRight[i])
-            selectGame.classList.add('disabled')
-          } 
+          }
+          addOnGameClassDisabled()
         }
-        //////jogador BALL ganha na primeira coluna
         everyDiagonalLeftRightWithTheClassDino = boxDiagonalLeftRight.every(function (item) {
           return boxHasDino(item)
         })
         if (everyDiagonalLeftRightWithTheClassDino===true) {
          for (var i = 0; i < boxDiagonalLeftRight.length; i++) {
             aditionWinner(boxDiagonalLeftRight[i])
-            selectGame.classList.add('disabled')
           }
+          addOnGameClassDisabled()
         }
       }
     })
-
-
   })
 }
 
