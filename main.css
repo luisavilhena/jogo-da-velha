@@ -35,23 +35,28 @@ h1 {
 .bt {
   width: 193px;
   height: 117px;
+
   background: 
   linear-gradient(219deg, black 61%,  white 63%, black 63%) 50% 50% / 5em 3em;
+
+  transition-property: all;
+  transition-duration: 0.2s;
 }
+
 
 .bird {
   background-image: url(bird3.png);
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: black;
+  background-color: grey;
 }
 
-.dino {
 
+.dino {
   background-image: url(brontossauro.png);
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: black
+  background-color: black;
 }
 
 .winner {
